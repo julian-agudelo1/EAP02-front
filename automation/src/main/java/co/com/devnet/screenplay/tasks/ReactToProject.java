@@ -7,12 +7,11 @@ import java.time.Duration;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ReactToProject implements Task {
-    private ReactToProject() {
+    public ReactToProject() {
     }
 
     public static ReactToProject withLike() {
@@ -21,10 +20,15 @@ public class ReactToProject implements Task {
 
     @Override
     public <T extends Actor> void performAs(T actor) {
-        WebElement oldLike = DevNetUi.LIKE.resolveFor(actor);
+        var driver = BrowseTheWeb.as(actor).getDriver();
         actor.attemptsTo(DismissNotification.ifVisible(), ClickVisible.on(DevNetUi.LIKE));
-        new WebDriverWait(BrowseTheWeb.as(actor).getDriver(), Duration.ofSeconds(20))
-                .until(ExpectedConditions.stalenessOf(oldLike));
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(d -> {
+                    var toast = d.findElement(By.id("toast"));
+                    return toast != null && toast.isDisplayed() && !toast.getText().isBlank();
+                });
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(d -> d.findElements(By.className("loading-state")).isEmpty());
         actor.attemptsTo(OpenProjectComments.section());
     }
 }

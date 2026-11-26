@@ -46,9 +46,7 @@ public class PostComment implements Task {
             FlashMessage.text().answeredBy(actor);
             return;
         }
-        WebElement oldForm = DevNetUi.COMMENT_FORM.resolveFor(actor);
         actor.attemptsTo(ClickVisible.on(DevNetUi.COMMENT_SUBMIT));
-        new WebDriverWait(BrowseTheWeb.as(actor).getDriver(), Duration.ofSeconds(20))
-                .until(ExpectedConditions.stalenessOf(oldForm));
+        FlashMessage.text().answeredBy(actor);
     }
 }

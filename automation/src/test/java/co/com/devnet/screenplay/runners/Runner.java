@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
-        features = "src/test/resources/features",
+        features = "automation/src/test/resources/features",
         glue = "co.com.devnet.screenplay.stepdefinitions",
         tags = "not @pending-ui and not @requires-admin",
         snippets = CucumberOptions.SnippetType.CAMELCASE

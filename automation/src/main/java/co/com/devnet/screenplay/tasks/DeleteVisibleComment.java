@@ -1,6 +1,7 @@
 package co.com.devnet.screenplay.tasks;
 
 import java.time.Duration;
+import co.com.devnet.screenplay.interactions.AcceptConfirmation;
 import co.com.devnet.screenplay.interactions.DismissNotification;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
@@ -31,7 +32,7 @@ public class DeleteVisibleComment implements Task {
                 .findFirst()
                 .orElseThrow(() -> new AssertionError("The target comment is not visible."));
         comment.findElement(By.cssSelector("button[data-action='delete-comment']")).click();
-        driver.switchTo().alert().accept();
+        actor.attemptsTo(AcceptConfirmation.shownByTheBrowser());
         new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.stalenessOf(comment));
     }
 }

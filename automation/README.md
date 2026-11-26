@@ -22,6 +22,28 @@ In another terminal, run the Screenplay tests and generate the Serenity report:
 gradle -p automation clean test aggregate
 ```
 
+You can also run individual runners per feature:
+
+```powershell
+# Registro de cuenta (HU-01)
+gradle -p automation test --tests "co.com.devnet.screenplay.runners.AccountRegistrationRunner" aggregate
+
+# Inicio de sesión (HU-02)
+gradle -p automation test --tests "co.com.devnet.screenplay.runners.UserLoginRunner" aggregate
+
+# Publicación de proyectos (HU-07)
+gradle -p automation test --tests "co.com.devnet.screenplay.runners.ProjectPublicationRunner" aggregate
+
+# Comentarios (HU-13)
+gradle -p automation test --tests "co.com.devnet.screenplay.runners.CommentsRunner" aggregate
+
+# Reacciones (HU-14)
+gradle -p automation test --tests "co.com.devnet.screenplay.runners.ReactionsRunner" aggregate
+
+# Mantenimiento de proyectos (HU-08 / Pending UI)
+gradle -p automation test --tests "co.com.devnet.screenplay.runners.ProjectMaintenanceRunner" aggregate
+```
+
 The HTML report is generated at `automation\target\site\serenity\index.html`.
 The default runner excludes scenarios tagged `@pending-ui` and
 `@requires-admin`. HU-08 is tagged `@pending-ui` because this frontend currently
